@@ -54,16 +54,49 @@
  */
 export function createThaliDescription(thali) {
   // Your code here
+  if(typeof thali !== "object" || typeof thali?.name !== "string" || !Array.isArray(thali?.items) || !Number(thali?.price) || typeof thali?.isVeg !== "boolean"  ) return ""
+  return (`${thali.name.toUpperCase()} ${thali.isVeg ? "(Veg)" : "(Non-Veg)"} - Items: ${thali.items.join(", ")} - Rs.${thali.price.toFixed(2)}`)
 }
 
 export function getThaliStats(thalis) {
   // Your code here
+  if(!Array.isArray(thalis) || thalis.length === 0) return null;
+  let totalThalis = thalis.length;
+  
+  let vegThalis = thalis.filter(thali => thali.isVeg);
+  let vegCount = vegThalis.length;
+  
+  let nonVegThalis = thalis.filter(thali => !thali.isVeg);
+  let nonVegCount = nonVegThalis.length;
+  
+  let allPrice = thalis.reduce((sum , thali) => {
+    return sum + thali.price }, 0)
+    let avgPrice = allPrice / totalThalis;
+    let cheapest = Math.min(...thalis.map(thali => thali.price));
+    let costliest = Math.max(...thalis.map(thali => thali.price));
+
+    let names = thalis.map(thali => thali.name);
+return {totalThalis, vegCount, nonVegCount, avgPrice :avgPrice.toFixed(2), cheapest, costliest, names};
 }
 
 export function searchThaliMenu(thalis, query) {
   // Your code here
+  if(!Array.isArray(thalis) || typeof query !== "string") return []
+  let caseSensitiveQuery = query.toLowerCase()
+  let specificThali = thalis.filter(thali => ((thali.name).toLowerCase()).includes(caseSensitiveQuery) || (thali.items.some(item => item.toLowerCase().includes(caseSensitiveQuery))));
+  return specificThali;
 }
 
 export function generateThaliReceipt(customerName, thalis) {
   // Your code here
+  if(typeof customerName !== "string" || !Array.isArray(thalis) || thalis.length === 0) return ""
+  let nameInBold = customerName.toUpperCase();
+
+  let totalThalis = thalis.map(thali => thali.name);
+
+  let thaliNameAndPrice = thalis.map(thali => `- ${thali.name} x Rs.${thali.price}`).join("\n");
+
+  let thalisTotalSum = thalis.reduce((sum, thali) => sum + thali.price,0)
+
+  return `THALI RECEIPT\n---\nCustomer: ${nameInBold}\n ${thaliNameAndPrice} \n---\nTotal: Rs.${thalisTotalSum}\nItems: ${totalThalis.length}` 
 }

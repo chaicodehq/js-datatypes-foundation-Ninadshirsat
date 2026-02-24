@@ -47,20 +47,49 @@
  */
 export function getChaiOrderLength(order) {
   // Your code here
+  if(typeof order !== "string") return -1;
+  
+    let trimmedOrder = order.trim();
+    return trimmedOrder.length;
+
+  //trim is a function so we call it with ()
+  // length is a property so we call it without ()
 }
 
 export function shoutChaiOrder(order) {
   // Your code here
+  if(typeof order !== "string" || order === "") return "";
+  let trimmedorder = order.trim();
+  return trimmedorder.toUpperCase();
 }
 
 export function whisperChaiOrder(order) {
   // Your code here
+  if(typeof order !== "string" || order === "" ) return ""
+  let trimmedOrder = order.trim();
+  return trimmedOrder.toLowerCase();
 }
 
 export function hasSpecialIngredient(order, ingredient) {
   // Your code here
+  if( typeof order !== "string" || typeof ingredient !== "string") return false;
+  let lowerOrder = order.toLowerCase();
+  let specialIngrdient = ingredient.toLowerCase();
+
+  if(lowerOrder.includes(specialIngrdient)) return true;
+  else if(!lowerOrder.includes(specialIngrdient)) return false;
+
 }
 
 export function getFirstAndLastChar(order) {
   // Your code here
+  if (typeof order !== "string") return null;
+
+  let trimmedOrder = order.trim()
+
+  if(!trimmedOrder) return null;
+
+  let first = trimmedOrder.charAt(0)
+  let last = trimmedOrder.charAt(trimmedOrder.length - 1);
+  return {first, last};
 }
